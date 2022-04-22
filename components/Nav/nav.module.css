@@ -1,0 +1,6 @@
+.logo {
+    font-size: 72px;
+    background: linear-gradient(91.26deg, #A9CDFF 0%, #72F6D1 21.87%, #A0ED8D 55.73%, #FED365 81.77%, #FAA49E 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
