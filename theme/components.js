@@ -4,7 +4,8 @@ const components = {
             fontFamily: 'Poppins',
             fontWeight: '600',
             _focus: {
-                outline: 0
+                outline: 0,
+                boxShadow: 'none'
             }
         },
         sizes: {

@@ -1,6 +1,8 @@
 import React from 'react'
 import styles from './nav.module.css'
-import { Heading, Flex, Button } from '@chakra-ui/react'
+import { Heading, Flex } from '@chakra-ui/react'
+import { useConnection } from '@solana/wallet-adapter-react';
+import Connect from '../Connect';
 
 export default function Nav({ children, ...props }) {
     return (
@@ -16,7 +18,7 @@ export default function Nav({ children, ...props }) {
         {...props}
       >
         <Heading className={styles.logo}>HACKTHON</Heading>
-        <Button size="lg" variant="dark">Connect to Wallet</Button>
+        <Connect />
       </Flex>
     )
   }
