@@ -4,6 +4,7 @@ import { Input as ChakraInput } from "@chakra-ui/react";
 export default function Select({ children, ...props }) {
   return (
     <ChakraInput
+      type="number"
       border="solid 1px"
       borderColor="gray.2300"
       _hover={{
