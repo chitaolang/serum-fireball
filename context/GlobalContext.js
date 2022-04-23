@@ -6,7 +6,7 @@ import { getSolanaTokenList } from '../utils/web3';
 
 export const GlobalContext = React.createContext(null)
 
-export function GlobalProvider({ children }) {
+export default function GlobalProvider({ children }) {
     const [tokenAccounts, setTokenAccounts] = useState([]);
     const [tokenList, setTokenList] = useState([]);
 

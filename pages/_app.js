@@ -4,8 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import theme from '../theme'
 import Layout from '../components/Layout'
 import ContextCompose from '../components/ContextCompose';
-import WalletContext from '../context/WalletConext';
-import { GlobalProvider } from '../context/GlobalContext';
+import { WalletContext, GlobalProvider, SerumProvider } from '../context';
 
 
 function MyApp({ Component, pageProps }) {
@@ -15,6 +14,7 @@ function MyApp({ Component, pageProps }) {
         <ContextCompose
           contexts={[
             GlobalProvider,
+            SerumProvider
           ]}
         >
           <Layout>
