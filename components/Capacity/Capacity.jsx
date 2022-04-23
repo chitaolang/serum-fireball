@@ -30,7 +30,7 @@ function Radio(props) {
 
 export default function Capacity({ ...props }) {
   const options = ['0.1', '0.25', '0.50', '0.75', '1']
-  const { setCapacity } = props
+  const { setCapacity, parent } = props
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'capacity',
@@ -44,7 +44,7 @@ export default function Capacity({ ...props }) {
       {options.map((value) => {
         const radio = getRadioProps({ value })
         return (
-          <Radio id={value} key={value} {...radio}>
+          <Radio id={parent + value} key={value} {...radio}>
             <Text p="0.4rem 0.5rem" fontSize="0.8rem">{value * 100}%</Text>
           </Radio>
         )

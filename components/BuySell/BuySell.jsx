@@ -237,7 +237,7 @@ export default function BuySell({ ...props }) {
         </Flex>
         <Flex w="100%" flexDir="column">
           <Text className={styles.label} mt="0.4rem" mb="0">USDC Amount: {usdcAmount}</Text>
-          <Capacity setCapacity={setCapacity} />
+          <Capacity parent="buysell" setCapacity={setCapacity} />
         </Flex>
         <Button
           disabled={!publicKey && !market}

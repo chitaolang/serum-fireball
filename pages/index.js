@@ -10,7 +10,8 @@ import {
 import Image from "next/image"
 
 import Card from "../components/Card"
-import BuySell from "../components/BuySell/BuySell"
+import BuySell from "../components/BuySell"
+import Martingale from "../components/Martingale"
 import Tab from "../components/Tab"
 import SOL from "../asset:img/sol.svg"
 import USDC from "../asset:img/usdc.svg"
@@ -62,7 +63,7 @@ export default function Home() {
                 <BuySell />
               </TabPanel>
               <TabPanel>
-                <p>SELL!</p>
+                <Martingale />
               </TabPanel>
             </TabPanels>
           </Tabs>
