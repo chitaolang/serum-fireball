@@ -1,3 +1,4 @@
+import React from "react"
 import {
   Flex,
   Text,
@@ -7,8 +8,9 @@ import {
   TabPanel,
 } from "@chakra-ui/react"
 import Image from "next/image"
+
 import Card from "../components/Card"
-import Buy from "../components/Buy/Buy"
+import BuySell from "../components/BuySell/BuySell"
 import Tab from "../components/Tab"
 import SOL from "../asset:img/sol.svg"
 import USDC from "../asset:img/usdc.svg"
@@ -41,7 +43,7 @@ export default function Home() {
                   backgroun: 'transparent'
                 }}
               >
-                BUY
+                BUY/SELL
               </Tab>
               <Tab
                 _focus={{
@@ -51,13 +53,13 @@ export default function Home() {
                   backgroun: 'transparent'
                 }}
               >
-                SELL
+                Martingale
               </Tab>
             </TabList>
 
             <TabPanels>
               <TabPanel>
-                <Buy />
+                <BuySell />
               </TabPanel>
               <TabPanel>
                 <p>SELL!</p>

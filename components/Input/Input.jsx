@@ -6,6 +6,7 @@ export default function Select({ children, ...props }) {
     <ChakraInput
       type="number"
       border="solid 1px"
+      min={0}
       borderColor="gray.2300"
       _hover={{
         border: 'solid 1px white',
