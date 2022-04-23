@@ -65,9 +65,8 @@ export const getTokenAccounts = async (conn, publicKey) => {
           pubkey
         } = token;
 
-        const ownerPublicKey = new PublicKey(owner);
-        const mintPublicKey = new PublicKey(mint);
-        const ATA = (await getAssociatedTokenAddress(ownerPublicKey, mintPublicKey)).toString();
+        const mintPublicKey = new PublicKey(owner);
+        const ATA = (await getAssociatedTokenAddress(publicKey, mintPublicKey)).toString();
         const meta = pubkey.toString()
 
         const tokenAccountInList = tokenList.find(token => token.address === mint);

@@ -35,7 +35,8 @@ export function GlobalProvider({ children }) {
         <GlobalContext.Provider
             value={{
                 setTokenAccounts,
-                tokenAccounts
+                tokenAccounts,
+                tokenList
             }}
         >
             {children}

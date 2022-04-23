@@ -7,7 +7,7 @@ import {
 } from '@solana/wallet-adapter-wallets'
 
 export default function WalletContext({ children }) {
-    const network = WalletAdapterNetwork.Devnet;
+    const network = WalletAdapterNetwork.Mainnet;
     const endpoint = useMemo(() => clusterApiUrl(network), [network]);
     const wallets = useMemo(
         () => [

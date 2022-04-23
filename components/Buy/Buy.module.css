@@ -1,0 +1,15 @@
+.column {
+  width: 100%;
+  margin: 0rem;
+  margin-bottom: 0.4rem;
+  justify-content: space-between;
+}
+.input {
+  flex-direction: column;
+  flex-basis: 48%;
+}
+.label {
+  font-size: 0.7rem;
+  opacity: 0.5;
+  margin-bottom: 0.4rem;
+}

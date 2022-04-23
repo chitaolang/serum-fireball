@@ -1,21 +1,71 @@
-import { Flex, Stack } from "@chakra-ui/react"
-import Select from "../components/Select"
+import {
+  Flex,
+  Text,
+  Tabs,
+  TabList,
+  TabPanels,
+  TabPanel,
+} from "@chakra-ui/react"
+import Image from "next/image"
+import Card from "../components/Card"
+import Buy from "../components/Buy/Buy"
+import Tab from "../components/Tab"
+import SOL from "../asset:img/sol.svg"
+import USDC from "../asset:img/usdc.svg"
 
 export default function Home() {
   return (
-    <Flex>
-      <Stack spacing={3}>
-        <Select placeholder='small size' size='sm' >
-          <option value='option1'>Option 1</option>
-          <option value='option2'>Option 2</option>
-          <option value='option3'>Option 3</option>
-        </Select>
-        <Select placeholder='medium size' size='md'>
-          <option value='option1'>Option 1</option>
-          <option value='option2'>Option 2</option>
-          <option value='option3'>Option 3</option>
-        </Select>
-      </Stack>
-    </Flex>
+    <Flex align="center" justify="center">
+      <Card w="25rem" p="2rem">
+        <Flex align="center" justify="center" flexDir="column">
+          <Flex>
+            <Flex marginRight="0.5rem">
+              <Image
+                src={SOL}
+                alt="pair"
+              />
+              <Image
+                src={USDC}
+                alt="pair"
+              />
+            </Flex>
+            <Text fontSize="xl">SOL/USDC</Text>
+          </Flex>
+          <Tabs colorScheme='primary' defaultIndex={0}>
+            <TabList>
+              <Tab
+                _focus={{
+                  boxShadow: 'none'
+                }}
+                _active={{
+                  backgroun: 'transparent'
+                }}
+              >
+                BUY
+              </Tab>
+              <Tab
+                _focus={{
+                  boxShadow: 'none'
+                }}
+                _active={{
+                  backgroun: 'transparent'
+                }}
+              >
+                SELL
+              </Tab>
+            </TabList>
+
+            <TabPanels>
+              <TabPanel>
+                <Buy />
+              </TabPanel>
+              <TabPanel>
+                <p>SELL!</p>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Flex>
+      </Card>
+    </Flex >
   )
 }

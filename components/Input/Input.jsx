@@ -1,9 +1,9 @@
 import React from "react";
-import { Select as ChakraSelect } from "@chakra-ui/react";
+import { Input as ChakraInput } from "@chakra-ui/react";
 
 export default function Select({ children, ...props }) {
   return (
-    <ChakraSelect
+    <ChakraInput
       border="solid 1px"
       borderColor="gray.2300"
       _hover={{
@@ -17,6 +17,6 @@ export default function Select({ children, ...props }) {
       {...props}
     >
       {children}
-    </ChakraSelect>
+    </ChakraInput>
   )
 }
