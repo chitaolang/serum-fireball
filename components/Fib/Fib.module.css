@@ -13,3 +13,8 @@
   opacity: 0.5;
   margin-bottom: 0.4rem;
 }
+
+.fib {
+  flex-direction: row;
+  flex-basis: 48%;
+}

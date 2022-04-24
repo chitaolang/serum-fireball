@@ -66,7 +66,7 @@ export default function Fib({ ...props }) {
       const placeOrderTransaction = await market.makePlaceOrderTransaction(connection, {
         owner,
         payer,
-        side: 'buy',
+        side: 'BUY',
         price,
         size,
         orderType: 'limit',
@@ -88,7 +88,6 @@ export default function Fib({ ...props }) {
     initialValues: {
       top: 0,
       bottom: 0,
-      fibs: {}
     },
     validationSchema: Yup.object({
 
@@ -140,17 +139,19 @@ export default function Fib({ ...props }) {
 
     if (bottom > top) {
       const fibs = getFibRetracement({ levels: { 0: top, 1: bottom } });
-      const fibsInput = {}
+      const fibsInputs = []
+      console.log(fibs)
 
       Object.keys(fibs).forEach(fib => {
-        fibsInput[fibs[fib]] = {
+        fibsInputs.push({
+          level: fib,
+          price: fibs[fib].toFixed(2),
           side: 'buy',
-          size: 0
-        }
+          quantity: ''
+        })
       })
-      formik.setFieldValue('fibs', fibsInput)
-
-      console.log(fibsInput)
+      console.log(fibsInputs)
+      setOrders(fibsInputs)
     }
   }, [formik.values.bottom, formik.values.top])
 
@@ -181,24 +182,33 @@ export default function Fib({ ...props }) {
               value={formik.values.bottom}
             />
           </Flex>
-          <Flex className={styles.input} flexBasis="48%">
-            {
-              Object.keys(formik.values.fibs).length > 0 ? (Object.keys(formik.values.fibs).map((fib, index) => {
-                return (
-                  <Flex key={fib + 'size'}>
-                    <Input size="md"
-                      id={fib + 'size'}
-                      name={fib + 'size'}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.fibs[fib].size} />
+
+        </Flex>
+        <Flex flexDir="column" mt="2rem">
+          {
+            orders.map(order => {
+              return (
+                <Flex key={'order' + order.level} className={styles.column}>
+                  <Flex className={styles.input} flexBasis="23%">
+                    <Text className={styles.label}>Level</Text>
+                    <Text>{order.level}</Text>
                   </Flex>
-                )
-              }))
-                :
-                null
-            }
-          </Flex>
+                  <Flex className={styles.input} flexBasis="23%">
+                    <Text className={styles.label}>Side</Text>
+                    <Text>{order.side}</Text>
+                  </Flex>
+                  <Flex className={styles.input} flexBasis="23%">
+                    <Text className={styles.label}>Price</Text>
+                    <Text>{order.price}</Text>
+                  </Flex>
+                  <Flex className={styles.input} flexBasis="23%">
+                    <Text className={styles.label}>Quantity</Text>
+                    <Input />
+                  </Flex>
+                </Flex>
+              )
+            })
+          }
         </Flex>
         <Button
           disabled={!publicKey && !market}
