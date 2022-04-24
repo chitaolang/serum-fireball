@@ -8,12 +8,13 @@ import Input from "../Input"
 import Capacity from "../Capacity/Capacity"
 import { useGlobal, useSerum } from "../../hooks";
 import { PublicKey } from "@solana/web3.js";
+import { signAndSendTransactions } from "../../utils/web3";
 
 export default function Martingale({ ...props }) {
   const { tokenAccounts } = useGlobal()
   const { connection } = useConnection()
-  const { publicKey, signAllTransactions } = useWallet()
-  const { market } = useSerum()
+  const { publicKey, signAllTransactions, wallet } = useWallet()
+  const { market, refreshOrder } = useSerum()
   const [usdcAmount, setUsdcAmount] = useState(0)
   const [capacity, setCapacity] = useState(0)
   const [loading, setLoading] = useState(false)
@@ -56,6 +57,7 @@ export default function Martingale({ ...props }) {
   const setOrder = async (owner, payer, orders) => {
     setLoading(true)
     const transactions = []
+    console.log(orders)
     for (let order of orders) {
       const {
         price,
@@ -70,16 +72,18 @@ export default function Martingale({ ...props }) {
         orderType: 'limit',
         feeDiscountPubkey: null, // needed to enable devnet/localnet
       });
-      const transaction = (placeOrderTransaction.transaction)
-      transaction.recentBlockhash = (
-        await connection.getLatestBlockhash()
-      ).blockhash
-      transaction.feePayer = publicKey
-
-      transactions.push(transaction)
+      console.log('Test')
+      transactions.push(placeOrderTransaction)
     }
-    const txid = await signAllTransactions(transactions)
+    const txid = await signAndSendTransactions({
+      connection,
+      wallet: wallet.adapter,
+      feepayer: wallet.adapter,
+      transactions
+    })
     console.log(txid)
+    refreshOrder()
+    setLoading(false)
   }
 
   const formik = useFormik({

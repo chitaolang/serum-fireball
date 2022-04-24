@@ -7,10 +7,14 @@ export default function useSerum() {
     throw new Error('Missing serum context');
   }
   const {
-    market
+    market,
+    serumOrders,
+    refreshOrder
   } = context;
 
   return {
-    market
+    market,
+    serumOrders,
+    refreshOrder
   };
 }

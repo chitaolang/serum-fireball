@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
   Flex,
   Text,
@@ -8,6 +8,7 @@ import {
   TabPanel,
 } from "@chakra-ui/react"
 import Image from "next/image"
+import { useSerum } from "../hooks"
 
 import Card from "../components/Card"
 import BuySell from "../components/BuySell"
@@ -18,8 +19,14 @@ import SOL from "../asset:img/sol.svg"
 import USDC from "../asset:img/usdc.svg"
 
 export default function Home() {
+  const { serumOrders, refreshOrder } = useSerum()
+  useEffect(() => {
+    refreshOrder()
+  }, [])
+  console.log(serumOrders)
+
   return (
-    <Flex align="center" justify="center">
+    <Flex align="center" justify="center" flexDir="column">
       <Card w="25rem" p="2rem">
         <Flex align="center" justify="center" flexDir="column">
           <Flex>
@@ -83,6 +90,34 @@ export default function Home() {
           </Tabs>
         </Flex>
       </Card>
+      <Flex w="25rem" p="2rem" flexDir="column">
+        {serumOrders.map(order => {
+          const {
+            orderId,
+            size,
+            side,
+            price
+          } = order
+
+          return (
+            <Flex w="100%" key={orderId.toString()}>
+              <Flex w="100%" flexDir="column" justify="center" align="center">
+                <Text >Size</Text>
+                <Text color="gray.1500">{size}</Text>
+              </Flex>
+              <Flex w="100%" flexDir="column" justify="center" align="center">
+                <Text >Side</Text>
+                <Text color="gray.1500">{side}</Text>
+              </Flex>
+              <Flex w="100%" flexDir="column" justify="center" align="center">
+                <Text >Price</Text>
+                <Text color="gray.1500">{price}</Text>
+              </Flex>
+            </Flex>
+          )
+        })}
+
+      </Flex>
     </Flex >
   )
 }

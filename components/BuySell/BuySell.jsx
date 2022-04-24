@@ -9,18 +9,26 @@ import Select from "../Select"
 import Capacity from "../Capacity/Capacity"
 import { useGlobal, useSerum } from "../../hooks";
 import { PublicKey } from "@solana/web3.js";
+import { signAndSendTransaction } from "../../utils/web3";
 
 export default function BuySell({ ...props }) {
   const { tokenAccounts } = useGlobal()
   const { connection } = useConnection()
-  const { publicKey, signTransaction } = useWallet()
-  const { market } = useSerum()
+  const { publicKey, signTransaction, wallet, sendTransaction } = useWallet()
+  const { market, refreshOrder } = useSerum()
   const [usdcAmount, setUsdcAmount] = useState(0)
   const [capacity, setCapacity] = useState(0)
   const [loading, setLoading] = useState(false)
 
   const setOrder = async (owner, payer, side, price, size) => {
     setLoading(true)
+    console.log({
+      owner,
+      payer,
+      side,
+      price,
+      size,
+    })
     const placeOrderTransaction = await market.makePlaceOrderTransaction(connection, {
       owner,
       payer,
@@ -36,8 +44,24 @@ export default function BuySell({ ...props }) {
       await connection.getLatestBlockhash()
     ).blockhash
     transaction.feePayer = publicKey
-    const txid = await signTransaction(transaction)
+
+
+    const txid = await signAndSendTransaction({
+      connection,
+      wallet: wallet.adapter,
+      transaction,
+      signers: [
+        ...placeOrderTransaction.signers
+      ]
+    })
+
+    //const signedTx = await signTransaction(transaction)
+    //const txid = await sendTransaction(transaction, connection)
     console.log(txid)
+    refreshOrder()
+    setTimeout(() => {
+      setLoading(false)
+    }, "15000")
   }
 
   const formik = useFormik({

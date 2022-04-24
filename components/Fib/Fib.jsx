@@ -66,7 +66,7 @@ export default function Fib({ ...props }) {
       const placeOrderTransaction = await market.makePlaceOrderTransaction(connection, {
         owner,
         payer,
-        side: 'BUY',
+        side: 'buy',
         price,
         size,
         orderType: 'limit',
@@ -146,7 +146,7 @@ export default function Fib({ ...props }) {
         fibsInputs.push({
           level: fib,
           price: fibs[fib].toFixed(2),
-          side: 'buy',
+          side: 'BUY',
           quantity: ''
         })
       })
