@@ -2686,6 +2686,11 @@ fastq@^1.6.0:
   dependencies:
     reusify "^1.0.4"
 
+fib-retracement@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/fib-retracement/-/fib-retracement-0.0.4.tgz#90277019f1c4855e08c19df318d88df4e967e46e"
+  integrity sha512-ssiZYJ93gZThwMasUXCTHTOkHUjBQTRf9DO5lT73DRbgmkOEja13c93MmSqrDRbGr0YgJkRQT6KGesmBB7f5MQ==
+
 file-entry-cache@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/file-entry-cache/-/file-entry-cache-6.0.1.tgz#211b2dd9659cb0394b073e7323ac3c933d522027"

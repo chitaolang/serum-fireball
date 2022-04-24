@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
-import styles from "./Martingale.module.css"
+import React, { useState, useEffect } from "react"
+import { getFibRetracement, levels } from 'fib-retracement'
+import styles from "./Fib.module.css"
 import { Flex, Text, Button } from "@chakra-ui/react"
 import { useConnection, useWallet } from "@solana/wallet-adapter-react"
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 import Input from "../Input"
 import Capacity from "../Capacity/Capacity"
-import { useGlobal, useSerum } from "../../hooks";
-import { PublicKey } from "@solana/web3.js";
+import { useGlobal, useSerum } from "../../hooks"
+import { PublicKey } from "@solana/web3.js"
 
-export default function Martingale({ ...props }) {
+export default function Fib({ ...props }) {
   const { tokenAccounts } = useGlobal()
   const { connection } = useConnection()
   const { publicKey, signAllTransactions } = useWallet()
@@ -17,16 +18,17 @@ export default function Martingale({ ...props }) {
   const [usdcAmount, setUsdcAmount] = useState(0)
   const [capacity, setCapacity] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [orders, setOrders] = useState([])
 
   const caculate = (
-    start,
+    Top,
     drop,
     times,
     first,
     quantity,
   ) => {
     console.log({
-      start,
+      Top,
       drop,
       times,
       first,
@@ -84,26 +86,23 @@ export default function Martingale({ ...props }) {
 
   const formik = useFormik({
     initialValues: {
-      start: 0,
-      drop: 0,
-      times: 0,
-      first: 0,
-      quantity: 0,
+      top: 0,
+      bottom: 0,
+      fibs: {}
     },
     validationSchema: Yup.object({
 
     }),
     onSubmit: values => {
       const {
-        start,
-        drop,
-        times,
-        first,
-        quantity,
+        top,
+        bottom
       } = values
       console.log(values)
       console.log(publicKey)
+      const fibs = getFibRetracement({ levels: { 0: top, 1: bottom } });
 
+      /*
       const orders = caculate(start, drop, times, first, quantity)
 
       const payer = new PublicKey('7YqU1eWcVtq89AdeoifkMbZcKPVXUPZFT25Cejp4HJV1')
@@ -113,6 +112,7 @@ export default function Martingale({ ...props }) {
         payer,
         orders
       )
+      */
     },
   })
 
@@ -126,9 +126,33 @@ export default function Martingale({ ...props }) {
 
   useEffect(() => {
     if (capacity) {
-      formik.setFieldValue('quantity', (capacity * usdcAmount).toFixed(2))
+      //formik.setFieldValue('quantity', (capacity * usdcAmount).toFixed(2))
     }
   }, [capacity])
+
+  useEffect(() => {
+    const {
+      values: {
+        top,
+        bottom
+      }
+    } = formik
+
+    if (bottom > top) {
+      const fibs = getFibRetracement({ levels: { 0: top, 1: bottom } });
+      const fibsInput = {}
+
+      Object.keys(fibs).forEach(fib => {
+        fibsInput[fibs[fib]] = {
+          side: 'buy',
+          size: 0
+        }
+      })
+      formik.setFieldValue('fibs', fibsInput)
+
+      console.log(fibsInput)
+    }
+  }, [formik.values.bottom, formik.values.top])
 
 
   return (
@@ -136,66 +160,45 @@ export default function Martingale({ ...props }) {
       <Flex align="center" flexDirection="column">
         <Flex className={styles.column}>
           <Flex className={styles.input} flexBasis="48%">
-            <Text className={styles.label}>Start Price</Text>
+            <Text className={styles.label}>Top Price</Text>
             <Input
               size="md"
-              id="start"
-              name="start"
+              id="top"
+              name="top"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.start}
+              value={formik.values.top}
             />
           </Flex>
           <Flex className={styles.input} flexBasis="48%">
-            <Text className={styles.label}>Drop</Text>
+            <Text className={styles.label}>Bottom Price</Text>
             <Input
               size="md"
-              id="drop"
-              name="drop"
+              id="bottom"
+              name="bottom"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.drop}
-            />
-          </Flex>
-        </Flex>
-        <Flex className={styles.column}>
-          <Flex className={styles.input} flexBasis="48%">
-            <Text className={styles.label}>Times</Text>
-            <Input
-              size="md"
-              id="times"
-              name="times"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.times}
+              value={formik.values.bottom}
             />
           </Flex>
           <Flex className={styles.input} flexBasis="48%">
-            <Text className={styles.label}>First Order Amount</Text>
-            <Input
-              size="md"
-              id="first"
-              name="first"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.first}
-            />
+            {
+              Object.keys(formik.values.fibs).length > 0 ? (Object.keys(formik.values.fibs).map((fib, index) => {
+                return (
+                  <Flex key={fib + 'size'}>
+                    <Input size="md"
+                      id={fib + 'size'}
+                      name={fib + 'size'}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.fibs[fib].size} />
+                  </Flex>
+                )
+              }))
+                :
+                null
+            }
           </Flex>
-        </Flex>
-        <Flex className={styles.input} w="100%">
-          <Text className={styles.label}>Quantity</Text>
-          <Input
-            size="md"
-            id="quantity"
-            name="quantity"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.quantity}
-          />
-        </Flex>
-        <Flex w="100%" flexDir="column">
-          <Text className={styles.label} mt="0.4rem" mb="0">USDC Amount: {usdcAmount}</Text>
-          <Capacity parent="martingale" setCapacity={setCapacity} />
         </Flex>
         <Button
           disabled={!publicKey && !market}

@@ -12,6 +12,7 @@ import Image from "next/image"
 import Card from "../components/Card"
 import BuySell from "../components/BuySell"
 import Martingale from "../components/Martingale"
+import Fib from "../components/Fib"
 import Tab from "../components/Tab"
 import SOL from "../asset:img/sol.svg"
 import USDC from "../asset:img/usdc.svg"
@@ -56,6 +57,16 @@ export default function Home() {
               >
                 Martingale
               </Tab>
+              <Tab
+                _focus={{
+                  boxShadow: 'none'
+                }}
+                _active={{
+                  backgroun: 'transparent'
+                }}
+              >
+                Fibonacci
+              </Tab>
             </TabList>
 
             <TabPanels>
@@ -64,6 +75,9 @@ export default function Home() {
               </TabPanel>
               <TabPanel>
                 <Martingale />
+              </TabPanel>
+              <TabPanel>
+                <Fib />
               </TabPanel>
             </TabPanels>
           </Tabs>
